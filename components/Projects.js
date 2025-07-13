@@ -17,7 +17,7 @@ const projects = [
     title: "Tokiyo-Web",
     category: "Web",
     year: "2024",
-    image: "/images/Tokiyo.jpg",
+    image: "/images/tokiyo.jpg",
     description: "Tokiyo is a minimalist Pomodoro timer app designed to boost focus and productivity through timeboxing, built with a clean and calming interface."
   },
   {
