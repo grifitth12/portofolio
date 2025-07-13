@@ -34,17 +34,19 @@ export default function Navigation() {
   }, [isMenuOpen])
 
   // Prevent body scroll when menu is open
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
+ useEffect(() => {
+  if (isMenuOpen) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflowX = 'hidden'
+    document.body.style.overflowY = 'auto'
+  }
 
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isMenuOpen])
+  return () => {
+    document.body.style.overflowX = 'hidden'
+    document.body.style.overflowY = 'auto'
+  }
+}, [isMenuOpen])
 
   return (
     <nav className={`${styles.nav} ${isScrolled ? styles.scrolled : ''}`}>

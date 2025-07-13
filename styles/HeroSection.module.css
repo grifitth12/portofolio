@@ -503,7 +503,7 @@
 .hero, .heroContent, .heroImage, .imageWrapper {
   will-change: transform, opacity;
 }
-
+z
 .hero.loaded .heroContent,
 .hero.loaded .heroImage,
 .hero.loaded .imageWrapper {
