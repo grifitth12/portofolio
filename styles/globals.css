@@ -1,0 +1,947 @@
+  /* styles/globals.css - Complete responsive scroll animation system for Next.js */
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid
+      Sans, Helvetica Neue, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    ;
+  }
+
+  body {
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
+  /* Mobile scrollbar */
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+  }
+
+  /* Selection styling */
+  ::selection {
+    background: #1a1a1a;
+    color: white;
+  }
+
+  /* Focus styles */
+  button:focus,
+  a:focus {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
+  }
+
+  /* ===========================================
+    SCROLL ANIMATION BASE CLASSES
+    =========================================== */
+
+  /* Base hidden state for elements before animation */
+  .scroll-hidden {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: none;
+  }
+
+  .scroll-pending {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  /* Mobile optimized scroll hidden */
+  @media (max-width: 768px) {
+    .scroll-hidden {
+      transform: translateY(30px);
+    }
+
+    .scroll-pending {
+      transform: translateY(20px);
+    }
+  }
+
+  /* ===========================================
+    FADE IN UP ANIMATIONS
+    =========================================== */
+
+  .scrollElement {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: 0s;
+  }
+
+  .scrollElement.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile fade in optimization */
+  @media (max-width: 768px) {
+    .scrollElement {
+      transform: translateY(30px);
+      transition-duration: 0.6s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .scrollElement {
+      transform: translateY(20px);
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    SLIDE IN ANIMATIONS
+    =========================================== */
+
+  .scrollLeft {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scrollLeft.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .scrollRight {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scrollRight.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Mobile slide animations */
+  @media (max-width: 768px) {
+    .scrollLeft {
+      transform: translateX(-30px);
+      transition-duration: 0.6s;
+    }
+
+    .scrollRight {
+      transform: translateX(30px);
+      transition-duration: 0.6s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .scrollLeft {
+      transform: translateX(-20px);
+      transition-duration: 0.5s;
+    }
+
+    .scrollRight {
+      transform: translateX(20px);
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    SCALE ANIMATIONS
+    =========================================== */
+
+  .scrollScale {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scrollScale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Mobile scale optimization */
+  @media (max-width: 768px) {
+    .scrollScale {
+      transform: scale(0.9);
+      transition-duration: 0.6s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .scrollScale {
+      transform: scale(0.95);
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    UNIVERSAL VISIBLE CLASS
+    =========================================== */
+
+  .visible {
+    opacity: 1 !important;
+    transform: translateY(0) translateX(0) scale(1) !important;
+  }
+
+  .scrollVisible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* ===========================================
+    STAGGERED ANIMATIONS
+    =========================================== */
+
+  [data-stagger] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  [data-stagger].visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered container */
+  .staggered-container [data-stagger]:nth-child(1) {
+    transition-delay: 0.1s;
+  }
+  .staggered-container [data-stagger]:nth-child(2) {
+    transition-delay: 0.2s;
+  }
+  .staggered-container [data-stagger]:nth-child(3) {
+    transition-delay: 0.3s;
+  }
+  .staggered-container [data-stagger]:nth-child(4) {
+    transition-delay: 0.4s;
+  }
+  .staggered-container [data-stagger]:nth-child(5) {
+    transition-delay: 0.5s;
+  }
+  .staggered-container [data-stagger]:nth-child(6) {
+    transition-delay: 0.6s;
+  }
+
+  /* Mobile staggered optimization */
+  @media (max-width: 768px) {
+    [data-stagger] {
+      transform: translateY(20px);
+      transition-duration: 0.4s;
+    }
+
+    .staggered-container [data-stagger]:nth-child(1) {
+      transition-delay: 0.05s;
+    }
+    .staggered-container [data-stagger]:nth-child(2) {
+      transition-delay: 0.1s;
+    }
+    .staggered-container [data-stagger]:nth-child(3) {
+      transition-delay: 0.15s;
+    }
+    .staggered-container [data-stagger]:nth-child(4) {
+      transition-delay: 0.2s;
+    }
+    .staggered-container [data-stagger]:nth-child(5) {
+      transition-delay: 0.25s;
+    }
+    .staggered-container [data-stagger]:nth-child(6) {
+      transition-delay: 0.3s;
+    }
+  }
+
+  /* ===========================================
+    PROJECT CARD ANIMATIONS
+    =========================================== */
+
+  .projectCard {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: var(--animation-delay, 0s);
+  }
+
+  .projectCard.scrollVisible,
+  .projectCard.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Project filter animations */
+  .projectCard.filterIn {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .projectCard.filterOut {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Mobile project cards */
+  @media (max-width: 768px) {
+    .projectCard {
+      transform: translateY(30px) scale(0.98);
+      transition-duration: 0.6s;
+    }
+
+    .projectCard.filterIn {
+      transition-duration: 0.4s;
+    }
+
+    .projectCard.filterOut {
+      transform: translateY(15px) scale(0.98);
+      transition-duration: 0.25s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .projectCard {
+      transform: translateY(20px) scale(0.99);
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    SKILL PROGRESS ANIMATIONS
+    =========================================== */
+
+  .skillProgress {
+    width: 0 !important;
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: 0.3s;
+    transform-origin: left center;
+  }
+
+  .skillProgress.animated {
+    transition-delay: 0s;
+  }
+
+  .skillItem {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .skillItem.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile skill animations */
+  @media (max-width: 768px) {
+    .skillProgress {
+      transition-duration: 1s;
+      transition-delay: 0.2s;
+    }
+
+    .skillItem {
+      transform: translateY(20px);
+      transition-duration: 0.6s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .skillProgress {
+      transition-duration: 0.8s;
+      transition-delay: 0.1s;
+    }
+
+    .skillItem {
+      transform: translateY(15px);
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    EXPERIENCE ANIMATIONS
+    =========================================== */
+
+  .experienceItem {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: calc(var(--item-index, 0) * 0.1s);
+  }
+
+  .experienceItem.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile experience animations */
+  @media (max-width: 768px) {
+    .experienceItem {
+      transform: translateY(25px);
+      transition-duration: 0.6s;
+      transition-delay: calc(var(--item-index, 0) * 0.05s);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .experienceItem {
+      transform: translateY(20px);
+      transition-duration: 0.5s;
+      transition-delay: calc(var(--item-index, 0) * 0.03s);
+    }
+  }
+
+  /* ===========================================
+    SECTION ANIMATIONS
+    =========================================== */
+
+  .aboutSection,
+  .experienceSection,
+  .skillsSection,
+  .contactSection,
+  .projectsSection,
+  .heroSection {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .aboutSection.visible,
+  .experienceSection.visible,
+  .skillsSection.visible,
+  .contactSection.visible,
+  .projectsSection.visible,
+  .heroSection.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile section animations */
+  @media (max-width: 768px) {
+    .aboutSection,
+    .experienceSection,
+    .skillsSection,
+    .contactSection,
+    .projectsSection,
+    .heroSection {
+      transform: translateY(40px);
+      transition-duration: 0.6s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .aboutSection,
+    .experienceSection,
+    .skillsSection,
+    .contactSection,
+    .projectsSection,
+    .heroSection {
+      transform: translateY(30px);
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    NAVBAR SCROLL EFFECTS
+    =========================================== */
+
+  .nav {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s ease, backdrop-filter 0.3s ease,
+      box-shadow 0.3s ease;
+    will-change: transform, background;
+  }
+
+  .nav.scrolled {
+    background: rgba(250, 250, 250, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav.hidden {
+    transform: translateY(-100%);
+  }
+
+  /* Mobile navbar optimizations */
+  @media (max-width: 768px) {
+    .nav {
+      transition-duration: 0.25s;
+    }
+
+    .nav.scrolled {
+      backdrop-filter: blur(8px);
+      box-shadow: 0 1px 15px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  /* ===========================================
+    HERO ANIMATIONS
+    =========================================== */
+
+  .heroContent {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: 0.2s;
+  }
+
+  .heroImage {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-delay: 0.4s;
+  }
+
+  .heroContent.hero-loaded,
+  .heroImage.hero-loaded {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Mobile hero animations */
+  @media (max-width: 768px) {
+    .heroContent {
+      transform: translateY(20px);
+      transition-duration: 0.6s;
+      transition-delay: 0.1s;
+    }
+
+    .heroImage {
+      transform: translateY(20px) scale(0.98);
+      transition-duration: 0.6s;
+      transition-delay: 0.2s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .heroContent {
+      transform: translateY(15px);
+      transition-duration: 0.5s;
+      transition-delay: 0.05s;
+    }
+
+    .heroImage {
+      transform: translateY(15px) scale(0.99);
+      transition-duration: 0.5s;
+      transition-delay: 0.1s;
+    }
+  }
+
+  /* ===========================================
+    PAGE LOADING ANIMATIONS
+    =========================================== */
+
+  .page-loading {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .page-loaded {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Prevent flash of unstyled content */
+  .page-loading * {
+    animation-play-state: paused !important;
+  }
+
+  /* Mobile page loading */
+  @media (max-width: 768px) {
+    .page-loading {
+      transform: translateY(15px);
+    }
+
+    .page-loaded {
+      transition-duration: 0.6s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page-loading {
+      transform: translateY(10px);
+    }
+
+    .page-loaded {
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    PROGRESS INDICATORS
+    =========================================== */
+
+  .progress-bar {
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #1a1a1a, #666);
+    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 2px;
+  }
+
+  .progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+  }
+
+  /* Mobile progress indicators */
+  @media (max-width: 768px) {
+    .progress-bar {
+      height: 2px;
+    }
+
+    .progress-container {
+      height: 2px;
+    }
+  }
+
+  /* ===========================================
+    PARALLAX ELEMENTS
+    =========================================== */
+
+  [data-parallax] {
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Disable parallax on mobile for performance */
+  @media (max-width: 768px) {
+    [data-parallax] {
+      transform: none !important;
+      will-change: auto;
+    }
+  }
+
+  /* ===========================================
+    HOVER ENHANCEMENTS
+    =========================================== */
+
+  .projectCard:hover {
+    transform: translateY(-5px) scale(1.02);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .skillItem:hover .skillProgress {
+    filter: brightness(1.1);
+  }
+
+  /* Mobile hover optimizations */
+  @media (max-width: 768px) {
+    .projectCard:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    /* Disable hover effects on touch devices */
+    @media (hover: none) {
+      .projectCard:hover {
+        transform: none;
+      }
+
+      .skillItem:hover .skillProgress {
+        filter: none;
+      }
+    }
+  }
+
+  /* ===========================================
+    RESPONSIVE OPTIMIZATIONS
+    =========================================== */
+
+  @media (max-width: 768px) {
+    .scrollElement,
+    .scrollLeft,
+    .scrollRight,
+    .scrollScale {
+      transform: translateY(30px);
+    }
+
+    .scrollLeft {
+      transform: translateX(-30px);
+    }
+
+    .scrollRight {
+      transform: translateX(30px);
+    }
+
+    .projectCard {
+      transform: translateY(30px) scale(0.98);
+    }
+
+    .experienceItem {
+      transform: translateY(25px);
+    }
+
+    /* Reduced motion for mobile */
+    .scroll-hidden {
+      transform: translateY(20px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .scrollElement,
+    .scrollLeft,
+    .scrollRight,
+    .scrollScale,
+    .projectCard,
+    .experienceItem {
+      transition-duration: 0.6s;
+    }
+
+    [data-stagger] {
+      transition-duration: 0.4s;
+    }
+
+    .scrollElement,
+    .scrollLeft,
+    .scrollRight,
+    .scrollScale {
+      transform: translateY(20px);
+    }
+
+    .scrollLeft {
+      transform: translateX(-20px);
+    }
+
+    .scrollRight {
+      transform: translateX(20px);
+    }
+
+    .projectCard {
+      transform: translateY(20px) scale(0.99);
+    }
+
+    .experienceItem {
+      transform: translateY(20px);
+    }
+
+    .scroll-hidden {
+      transform: translateY(15px);
+    }
+  }
+
+  /* ===========================================
+    ACCESSIBILITY & REDUCED MOTION
+    =========================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .scroll-hidden,
+    .scrollElement,
+    .scrollLeft,
+    .scrollRight,
+    .scrollScale,
+    .projectCard,
+    .experienceItem,
+    [data-stagger] {
+      opacity: 1;
+      transform: none;
+    }
+
+    .nav {
+      transform: none !important;
+    }
+
+    [data-parallax] {
+      transform: none !important;
+    }
+  }
+
+  /* ===========================================
+    PERFORMANCE OPTIMIZATIONS
+    =========================================== */
+
+  .scrollElement,
+  .scrollLeft,
+  .scrollRight,
+  .scrollScale,
+  .projectCard,
+  .experienceItem,
+  [data-stagger],
+  .nav,
+  [data-parallax] {
+    will-change: transform, opacity;
+  }
+
+  /* Remove will-change after animation completes */
+  .visible {
+    will-change: auto;
+  }
+
+  /* Mobile performance optimizations */
+  @media (max-width: 768px) {
+    /* Reduce will-change usage on mobile */
+    [data-parallax] {
+      will-change: auto;
+    }
+
+    /* Optimize transforms for mobile */
+    .scrollElement,
+    .scrollLeft,
+    .scrollRight,
+    .scrollScale,
+    .projectCard,
+    .experienceItem {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+  }
+
+  /* ===========================================
+    CUSTOM ANIMATION CLASSES
+    =========================================== */
+
+  /* Bounce in animation */
+  .bounceIn {
+    opacity: 0;
+    transform: scale(0.3);
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .bounceIn.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Rotate in animation */
+  .rotateIn {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.8);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .rotateIn.visible {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  /* Flip in animation */
+  .flipIn {
+    opacity: 0;
+    transform: perspective(400px) rotateY(90deg);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .flipIn.visible {
+    opacity: 1;
+    transform: perspective(400px) rotateY(0deg);
+  }
+
+  /* Mobile custom animations */
+  @media (max-width: 768px) {
+    .bounceIn {
+      transform: scale(0.5);
+      transition-duration: 0.5s;
+    }
+
+    .rotateIn {
+      transform: rotate(-90deg) scale(0.9);
+      transition-duration: 0.6s;
+    }
+
+    .flipIn {
+      transform: perspective(300px) rotateY(45deg);
+      transition-duration: 0.6s;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .bounceIn {
+      transform: scale(0.7);
+      transition-duration: 0.4s;
+    }
+
+    .rotateIn {
+      transform: rotate(-45deg) scale(0.95);
+      transition-duration: 0.5s;
+    }
+
+    .flipIn {
+      transform: perspective(200px) rotateY(30deg);
+      transition-duration: 0.5s;
+    }
+  }
+
+  /* ===========================================
+    TOUCH DEVICE OPTIMIZATIONS
+    =========================================== */
+
+  @media (hover: none) and (pointer: coarse) {
+    /* Touch device specific optimizations */
+    .projectCard:hover {
+      transform: none;
+    }
+
+    .skillItem:hover .skillProgress {
+      filter: none;
+    }
+
+    /* Faster animations for touch */
+    .scrollElement,
+    .scrollLeft,
+    .scrollRight,
+    .scrollScale,
+    .projectCard,
+    .experienceItem {
+      transition-duration: 0.4s;
+    }
+  }
+
+  /* ===========================================
+    DEBUGGING (Remove in production)
+    =========================================== */
+
+  /* Uncomment for debugging animations */
+  /*
+  .scroll-hidden {
+    border: 2px solid red !important;
+  }
+  .visible {
+    border: 2px solid green !important;
+  }
+  */
