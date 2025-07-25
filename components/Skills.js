@@ -42,8 +42,6 @@ const skillsData = {
       { name: "Flutter", icon: "/icons/flutter.svg" },
       { name: "Dart", icon: "/icons/dart.svg" },
       { name: "React Native", icon: "/icons/react.svg" },
-      { name: "Android", icon: "/icons/android.svg" },
-      { name: "iOS", icon: "/icons/apple.svg" },
     ],
   },
   database: {
